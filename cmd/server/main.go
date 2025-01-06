@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/pyeremenko/klausapp-scoring/pkg/db"
 	"github.com/spf13/viper"
 	"log"
 )
@@ -9,8 +10,13 @@ func main() {
 	config := loadConfig()
 
 	_ = config.GetString("grpc_address")
-	_ = config.GetString("db_path")
+	dbPath := config.GetString("db_path")
 
+	dbConn, err := db.InitSQLite(dbPath)
+	if err != nil {
+		log.Fatalf("Failed to initialize database: %v", err)
+	}
+	defer dbConn.Close()
 }
 
 func loadConfig() *viper.Viper {
