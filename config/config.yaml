@@ -1,0 +1,2 @@
+grpc_address: ":50051"
+db_path: "./data/tasks.db"
